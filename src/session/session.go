@@ -1,11 +1,13 @@
 package session
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"smtpserver/db"
 	"smtpserver/pkg/models"
+	"strings"
 
 	"github.com/DusanKasan/parsemail"
 	"github.com/emersion/go-smtp"
@@ -17,6 +19,9 @@ type SmtpSession struct {
 }
 
 func (s *SmtpSession) Mail(from string, opts *smtp.MailOptions) error {
+	if strings.Contains(from, "@tiscali.it") {
+		return errors.New("550: Reject coz spam")
+	}
 	log.Println("Mail from: ", from)
 	s.From = from
 	return nil
