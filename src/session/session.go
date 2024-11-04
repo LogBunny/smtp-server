@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"smtpserver/db"
 	"smtpserver/pkg/models"
 	"smtpserver/utils"
 	"strings"
@@ -55,13 +54,13 @@ func (s *SmtpSession) Data(r io.Reader) error {
 		Subject: data.Subject,
 		Body:    body,
 	}
-	newEmail, err := db.EmailSvc.CreateEmail(email)
-	if err != nil {
-		log.Println(err)
-	}
+	//newEmail, err := db.EmailSvc.CreateEmail(email)
+	//if err != nil {
+	//	log.Println(err)
+	//}
 
-	go utils.ForwardMailToBackend(newEmail) //make it a goroutine so that the normal flow is not interrupted
-	log.Println(newEmail)
+	go utils.ForwardMailToBackend(&email) //make it a goroutine so that the normal flow is not interrupted
+	log.Println(email)
 	return nil
 
 }
