@@ -23,3 +23,8 @@ func (r *repo) CreateEmail(email models.Email) (*models.Email, error) {
 	}
 	return &email, nil
 }
+
+// UpdateUser implements Repository.
+func (r *repo) DeleteEmails() error {
+	return r.DB.Model(&models.Email{}).Delete(&models.Email{}).Where("created_at < NOW() - INTERVAL '12 hours'").Error
+}
